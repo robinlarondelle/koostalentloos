@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koos Talentloos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            transition: background-color 0.5s ease;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            text-align: center;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: white;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .quote {
+            font-family: 'Comic Neue', cursive;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: white;
+            line-height: 1.4;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            padding: 2rem;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .emoji {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-top: 2rem;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .refresh-hint {
+            position: fixed;
+            bottom: 2rem;
+            font-family: 'Comic Neue', cursive;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .domain {
+            position: fixed;
+            top: 1.5rem;
+            font-family: 'Bangers', cursive;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="domain">koostalentloos.nl</div>
+    <div class="container">
+        <h1 class="header">🎪 JIJ BENT ZO KOOS TALENTLOOS... 🎪</h1>
+        <p class="quote" id="quote"></p>
+        <div class="emoji" id="emoji"></div>
+    </div>
+    <p class="refresh-hint">↻ Refresh voor meer waarheid</p>
+
+    <script>
+        const quotes = [
+            "...dat jij nog een pan water kan laten aanbranden.",
+            "...dat je GPS zegt 'zoek het zelf maar uit'.",
+            "...dat je IKEA-meubels jou in elkaar proberen te zetten.",
+            "...dat Google zegt 'geen resultaten gevonden' als je jezelf opzoekt.",
+            "...dat je schaduw wegloopt als de zon opkomt.",
+            "...dat je een draaideur weet vast te zetten.",
+            "...dat WiFi weigert met je te connecten.",
+            "...dat autocorrect opgeeft bij jouw berichten.",
+            "...dat je een potje boter-kaas-en-eieren verliest van jezelf.",
+            "...dat de magnetron 'help' piept als jij binnenkomt.",
+            "...dat je verdwaalt op een roltrap.",
+            "...dat Shazam zegt 'dat is geen muziek' als je zingt.",
+            "...dat je schaar, steen, papier verliest terwijl je alleen speelt.",
+            "...dat je struikelt over de streep op de finish.",
+            "...dat Siri doet alsof ze je niet hoort.",
+            "...dat je een open deur niet kan vinden.",
+            "...dat je telefoon zichzelf op vliegtuigmodus zet als jij belt.",
+            "...dat je eigen echo niet wil antwoorden.",
+            "...dat je een zebra probeert te aaien in een zebrapad.",
+            "...dat je denkt dat een QR-code een puzzel is.",
+            "...dat je 'hallo' verkeerd spelt in een WhatsApp.",
+            "...dat de stofzuiger jou probeert op te zuigen uit zelfverdediging.",
+            "...dat je een lift neemt naar de begane grond en verdwaalt.",
+            "...dat je denkt dat copy-paste knippen en plakken met een schaar is.",
+            "...dat je een screenshot probeert te printen met een fototoestel.",
+            "...dat je navigatie zegt 'maak rechtsomkeert in je leven'.",
+            "...dat je een goudvis verliest met memory.",
+            "...dat Duolingo gestopt is met je herinneringen sturen.",
+            "...dat je een rondje rent en op de verkeerde plek uitkomt.",
+            "...dat je plantjes jou water geven uit medelijden.",
+            "...dat je alarm snooze-t en dan vergeet wakker te worden.",
+            "...dat je een ongelezen email stuurt naar jezelf en die kwijtraakt.",
+            "...dat je rekenmachine 'ERROR' geeft bij 1+1.",
+            "...dat je niet eens kan falen zonder te falen.",
+            "...dat je hoogte bereikt als je op de grond ligt.",
+            "...dat je sokken niet bij elkaar kan vinden, zelfs als ze aan je voeten zitten.",
+            "...dat Netflix vraagt of je nog aan het kijken bent naar je leven.",
+            "...dat je een taart laat zakken bij het uitblazen van de kaarsjes.",
+            "...dat je denkt dat 'bluetooth' een tandartsenterm is.",
+            "...dat Spotify jou op mute zet."
+        ];
+
+        const emojis = ["🤡", "💀", "😭", "🫠", "🤦", "😬", "🙃", "🥴", "😵‍💫", "🤣", "💩", "🎪", "🪦", "📉"];
+
+        const colors = [
+            "#e74c3c", "#9b59b6", "#3498db", "#1abc9c", "#f39c12", 
+            "#e67e22", "#16a085", "#8e44ad", "#2980b9", "#c0392b",
+            "#d35400", "#27ae60", "#2c3e50", "#7f8c8d", "#e91e63",
+            "#673ab7", "#00bcd4", "#ff5722", "#795548", "#607d8b"
+        ];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function init() {
+            document.getElementById('quote').textContent = getRandomItem(quotes);
+            document.getElementById('emoji').textContent = getRandomItem(emojis);
+            document.body.style.backgroundColor = getRandomItem(colors);
+        }
+
+        init();
+    </script>
+</body>
+</html>
